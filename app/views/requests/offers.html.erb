@@ -1,0 +1,51 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<p>View Offers</p>
+			<table>
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Seller Name</th>
+						<th>Notes</th>
+						<th>Amount</th>
+						<th>Deliver</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if @offers.blank? %>
+						<tr>
+							<td><p>Nothing to show here</p></td>
+						</tr>
+					<% end %>
+					<% @offers.each do |o| %>
+						<tr>
+							<td><%= o.created_at.strftime('%d, %b %Y') %></td>
+							<td>
+								<figure>
+									<%= image_tag avatar_url(o.user) %>
+								</figure>
+							</td>
+							<td><%= o.note %></td>
+							<td><%= o.amount %></td>
+							<td><%= o.days %></td>
+							<td><%= o.status.capitalize %></td>
+							<td>
+								<%= link_to accept_offer_path(o), method: :put, class: "btn btn-primary #{'d-none' if !o.pending?}", data: {confirm: "Are you sure?"} do %>
+									<span><i class="far fa-check-circle fa-lg"></i></span>
+									<span>Accept</span>
+								<% end %>
+								<%= link_to reject_offer_path(o), method: :put, class: "btn btn-primary #{'d-none' if !o.pending?}", data: {confirm: "Are you sure?"} do %>
+									<span><i class="far fa-times-circle fa-lg"></i></span>
+									<span>Reject</span>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

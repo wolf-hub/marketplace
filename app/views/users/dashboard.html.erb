@@ -1,0 +1,105 @@
+<section class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-4">
+				<figure>
+					<%= image_tag avatar_url(current_user), class: "rounded-circle" %>
+				</figure>
+				<div>
+					<%= form_for :user, url: users_edit_url(@user), action: :update, method: :post do |f| %>
+						<div class="file">
+							<label class="btn btn-primary">
+								<%= f.file_field :avatar, class: 'file-input d-none', onchange: "this.form.submit();" %>
+								<i class="fas fa-upload"></i> Upload Avatar
+							</label>
+						</div>
+					<% end %>
+				</div>
+				<div>
+					<%= current_user.created_at.strftime('%b %Y') %>
+				</div>
+				<div>
+					User from: <%= current_user.from %><i class="toggle fas fa-edit" aria-controls="user-from"></i>
+				</div>
+				<div class="content">
+					<%= form_for :user, url: users_edit_url(@user), action: :update, method: :post, html: {id: 'user-from', class: "d-none"} do |f| %>
+					<div class="field">
+						<%= f.text_field :from, autofocus: true, autocomplete: 'form', class: "input" %>
+					</div>
+					<a class="toggle button" aria-controls="user-from">Cancel</a>
+					<%= f.submit 'Submit', class: 'button' %>
+					<% end %>
+				</div>
+				<div>
+					User Status: 
+					<% if current_user.status %>
+						Online
+					<% else %>
+						Offline	
+					<% end %>
+					<i class=" toggle fas fa-edit" aria-controls="user-status"></i>
+				</div>
+				<div class="content">
+					<%= form_for :user, url: users_edit_url(@user), action: :update, method: :post, html: {id: 'user-status', class: "d-none"} do |f| %>
+					<div class="field">
+						<%= f.select(:status, options_for_select([['Online', true], ['Offline', false]]), {}, {class: "select"}) %>
+					</div>
+					<a class="toggle button" aria-controls="user-status">Cancel</a>
+					<%= f.submit 'Submit', class: 'button' %>
+					<% end %>
+				</div>
+				<div>
+					
+					<div>
+						About: <%= current_user.about %><i class="toggle fas fa-edit" aria-controls="user-about"></i>
+					</div>
+					<div class="content">
+						<%= form_for :user, url: users_edit_url(@user), action: :update, method: :post, html: {id: 'user-about', class: "d-none"} do |f| %>
+						<div class="field">
+							<%= f.text_area :about, autofocus: true, autocomplete: 'form', class: "input" %>
+						</div>
+						<a class="toggle button" aria-controls="user-from">Cancel</a>
+						<%= f.submit 'Submit', class: 'button' %>
+						<% end %>
+					</div>
+					<div>
+						<p>Linked Account</p>
+						<% if current_user.uid %>
+							<span class="text-success">Facebook verified</span>
+						<% else %>
+							<%= link_to "Connect to Facebook", user_facebook_omniauth_authorize_path, class: "text-danger" %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div>
+					<%= link_to new_gig_path do %>
+					<figure class="image" style="border: 1px solid black; display: inline-block;">
+						<%= image_tag 'icon_add.png', size: "150x150" %>
+					</figure>
+					<% end %>
+				</div>
+				<div>
+					<% current_user.gigs.each do |gig| %>
+						<div>
+							<%= link_to edit_gig_path(gig) do %>
+							<figure class="image">
+								<%= image_tag gig_cover(gig), size: "150x150" %>
+							</figure>
+							<% end %>
+							<p><%= link_to gig.title, gig_path(gig) %></p>
+							<p><span><i class="fa fa-star"></i></span><%= gig.average_rating %>(<%= gig.reviews.count %>)</p>
+							<% basic_price = gig.pricings.find{ |p| p.pricing_type == "basic" } %>
+							<% if !basic_price.nil? %>
+								<strong>$<%= basic_price.price %></strong>
+							<% else %>
+								<p>No price yet</p>
+							<% end %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

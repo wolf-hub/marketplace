@@ -1,0 +1,21 @@
+<div class="step-content <%= 'd-none' if @step!=2 %>">
+	<%= f.fields_for :pricings, @gig.pricings.order(:pricing_type) do |p| %>
+		<div class="<%= 'd-none' if @gig.has_single_pricing && !p.object.basic? %>">
+			<label for="" class="label"><%= p.object.pricing_type.capitalize %></label>
+			<%= p.hidden_field :pricing_type %>
+
+			<div class="control">
+				<%= p.text_field :title, placeholder: "Title", class: "input" %>
+			</div>
+			<div class="control">
+				<%= p.text_area :description, placeholder: "Description", class: "textarea" %>
+			</div>
+			<div class="control">
+				<%= p.number_field :delivery_time, placeholder: "Delivery time", class: "input", default: 1 %>
+			</div>
+			<div class="control">
+				<%= p.number_field :price, placeholder: "Price", class: "input", default: 1 %>
+			</div>
+		</div>		
+	<% end %>
+</div>

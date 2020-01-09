@@ -1,0 +1,22 @@
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<%= form_for @gig, html: {class: "steps-content"} do |f| %>
+					<div class="field">
+						<label class="label">Gig Title</label>
+						<%= f.text_area :title, autocomplete: "title", class: "textarea" %>
+					</div>
+					<div class="field">
+						<label class="label">Category</label>
+						<%= f.select(:category_id, options_for_select(@categories.map{ |c| [c.name, c.id] })) %>
+					</div>
+					<div class="field">
+						<a href="" class="button">Candel</a>
+						<%= f.submit "Save & Continue", class: "btn btn-primary" %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</section>

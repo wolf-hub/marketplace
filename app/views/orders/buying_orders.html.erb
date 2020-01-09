@@ -1,0 +1,73 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<table>
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Seller Name</th>
+						<th>Title</th>
+						<th>Due Data</th>
+						<th>Amount</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @orders.each do |o| %>
+						<tr>
+							<td><%= o.created_at.strftime('%d %b %Y') %></td>
+							<td><%= o.seller_name %></td>
+							<td>
+								<%= link_to o.title, gig_path(o.gig) if !o.gig.nil? %>
+								<%= link_to o.title, request_path(o.request) if !o.request.nil? %>	
+							</td>
+							<td><%= o.due_date.strftime('%d %b %Y') %></td>
+							<td><%= o.amount %></td>
+							<td>
+								<span class="tag <%= 'warning' if o.inprogress? %> <%= 'success' if o.completed? %>"><%= o.status.capitalize %></span>
+							</td>
+							<td>
+								<% if !o.completed? %>
+									<%= link_to 'Mark Complete', complete_order_path(o), method: :put , class: "btn btn-primary #{'d-none' if o.completed?} " %>
+								<% else %>
+									<a class="btn toggle-modal" aria-control="<%= o.id %>">Rating</a>
+									<div class="mymodal d-none" id="<%= o.id %>">
+										<%= form_for Review.new do |f| %>
+											<%= f.hidden_field :order_id, value: o.id %>
+											<div class="field">
+												<div id=star_<%= o.id %>></div>
+											</div>
+											<div class="field">
+												<%= f.text_area :review, class: "textarea" %>
+												<a class="toggle-modal btn" aria-control="<%= o.id %>">Cancel</a>
+												<%= f.submit "Add Review", class: "btn btn-primary" %>
+											</div>
+										<% end %>
+									</div>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('.toggle-modal').on('click', (e) => {
+		e.stopPropagation;
+		e.preventDefault;
+		console.log('test');
+
+		var order_id = e.target.getAttribute('aria-control');
+		$('#star_' + order_id).raty({
+			path: '/assets/raty-js/lib/images',
+			scoreName: 'review[stars]',
+			score: 1
+		});
+		$('#star_' + order_id).raty('reload');
+		$('#' + order_id).toggleClass('d-none');
+	});
+</script>

@@ -1,0 +1,16 @@
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<%= form_for @gig, html: {class: "steps-content"} do |f| %>
+					<%= hidden_field_tag 'step', @step %>
+					<%= render 'step1', f: f %>
+					<%= render 'step2', f: f %>
+					<%= render 'step3', f: f %>
+					<%= render 'step4', f: f %>
+					<%= render 'step5', f: f %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</section>

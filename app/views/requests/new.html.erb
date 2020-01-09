@@ -1,0 +1,42 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<%= form_for @request  do |f| %>
+				<div class="field">
+					<label for="" class="label">Title (*)</label>
+					<%= f.text_field :title, placeholder: "I request ...", class: "input" %>
+				</div>
+				<div class="field">
+					<label for="" class="label">Description (*)</label>
+					<%= f.text_area :description, placeholder: "I'm looking for ...", class: "textarea" %>
+				</div>
+				<div class="field">
+					<label for="" class="label">Choose a category</label>
+					<div class="select">
+						<%= f.select(:category_id, options_for_select(@categories.map { |c| [c.name, c.id] })) %>
+					</div>
+				</div>
+				<div class="field">
+					<label for="" class="label">Delivery</label>
+					<%= f.number_field :delivery, placeholder: "1-30 days", class: "input" %>
+				</div>
+				<div class="field">
+					<label for="" class="label">Budget</label>
+					<%= f.number_field :budget, placeholder: "$5 minimum", class: "input" %>
+				</div>
+				<div class="field">
+					<label for="" class="label">Upload attachment (optional)</label>
+					<div class="file">
+						<label for="" class="file-lable">
+							<%= f.file_field :attachment_file, class: "file-input" %>
+								
+						</label>
+					</div>
+				</div>
+				<div class="field">
+					<%= f.submit "Post request", class: "btn btn-primary" %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

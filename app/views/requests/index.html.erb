@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<p class="title">
+				Manage Requests
+				<%= link_to "Post new requests", new_request_path, class: "btn btn-primary" %>
+			</p>
+			<table>
+				<thead>
+					<tr>
+						<td>Date</td>
+						<td>Request</td>
+						<td>Offers</td>
+						<td>Action</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% if @requests.blank? %>
+						<tr>
+							<td>Nothing to show here</td>
+						</tr>
+					<% end %>
+					<% @requests.each do |r| %>
+						<tr>
+							<td><%= r.created_at.strftime('%d, %b %Y') %></td>
+							<td><%= link_to r.title, request_path(r) %></td>
+							<td><%= link_to r.offers.count, request_offers_path(r) %></td>
+							<td>
+								<%= link_to edit_request_path(r) do %>
+									<span class="icon success">
+										<i class="far fa-edit fa-lg"></i>
+									</span>
+								<% end %>
+								<%= link_to r, method: :delete, data: {confirm: "Are you sure?"} do %>
+									<span class="icon danger">
+										<i class="far fa-trash-alt fa-lg"></i>
+									</span>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

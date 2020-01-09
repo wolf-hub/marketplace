@@ -1,0 +1,81 @@
+<section class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-4">
+				<figure>
+					<%= image_tag avatar_url(@user), class: "rounded-circle" %>
+				</figure>
+				
+				<div>
+					<%= @user.created_at.strftime('%b %Y') %>
+				</div>
+				<div>
+					User from: <%= @user.from %>
+				</div>
+				
+				<div>
+					User Status: 
+					<% if @user.status %>
+						Online
+					<% else %>
+						Offline	
+					<% end %>
+				</div>				
+				<div>
+					
+					<div>
+						About: <%= @user.about %>
+					</div>
+					
+					<div>
+						<p>Linked Account</p>
+						<% if @user.uid %>
+							<span class="text-success">Facebook verified</span>
+						<% else %>
+							<span class="text-danger">
+								Facebook unverified
+							</span>
+						<% end %>
+					</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div>
+					<% @user.gigs.each do |gig| %>
+						<div>
+							<%= link_to edit_gig_path(gig) do %>
+							<figure class="image">
+								<%= image_tag gig_cover(gig), size: "150x150" %>
+							</figure>
+							<% end %>
+							<p><%= link_to gig.title, gig_path(gig) %></p>
+							<p><span><i class="fa fa-star"></i></span><%= gig.average_rating %>(<%= gig.reviews.count %>)</p>
+							<% basic_price = gig.pricings.find{ |p| p.pricing_type == "basic" } %>
+							<% if !basic_price.nil? %>
+								<strong>$<%= basic_price.price %></strong>
+							<% else %>
+								<p>No price yet</p>
+							<% end %>
+						</div>
+					<% end %>
+				</div>
+				<div>
+					<p>Latest Reviews</p>
+					<div>
+						<% @reviews.each do |r| %>
+							<figure>
+								<%= image_tag avatar_url(r.buyer) %>
+							</figure>
+							<p><%= r.buyer.full_name %></p>
+							<div>
+								<%= r.review %>
+							</div>
+							<p><%= time_ago_in_words(r.created_at) %></p>
+							<span><i class="fa fa-star"></i><%= r.stars %></span>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
