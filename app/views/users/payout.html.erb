@@ -1,0 +1,13 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<div>
+				<%= form_with url: update_payout_path, local: true do |f| %>
+				<div class="field">
+					<%= f.text_field :paypal, value: current_user.paypal, placeholder: "Your Paypal Email", class: "input" %>
+				</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

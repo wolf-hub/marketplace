@@ -13,6 +13,7 @@ class PagesController < ApplicationController
 
 		query_condition = []
 		query_condition[0] = "gigs.active = 1"
+		query_condition[0] += " AND ((gigs.has_single_pricing = 1 AND pricings.pricing_type = 0) OR (gigs.has_single_pricing = 0))" 
 
 		if !@q.blank?
 			query_condition[0] += " AND gigs.title LIKE ?"
@@ -40,9 +41,12 @@ class PagesController < ApplicationController
 		end
 
 		@gigs = Gig
-		.select("gigs.id, gigs.title, gigs.user_id, pricings.price AS price")
+		.select("gigs.id, gigs.title, gigs.user_id, MIN(pricings.price) AS price")
 		.joins(:pricings)
 		.where(query_condition)
+		.group("gigs.id")
 		.order(@sort)
+		.page(params[:page])
+		.per(6)
 	end
 end

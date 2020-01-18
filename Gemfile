@@ -31,8 +31,12 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
-
+gem 'kaminari'
 gem 'faker'
+gem 'kaminari'
+gem 'stripe'
+gem 'trestle'
+gem 'trestle-auth'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

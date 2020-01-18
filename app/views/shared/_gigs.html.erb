@@ -2,16 +2,18 @@
 	<% @gigs.each do |gig| %>
 		<div class="col-4">
 			<div style="margin: 5px; padding: 5px; border: 1px solid; border-radius: 5%;">
-				<%= link_to edit_gig_path(gig) do %>
+				<%= link_to gig_path(gig) do %>
 					<figure class="image">
 						<%= image_tag gig_cover(gig), size: "150x150" %>
 					</figure>
 				<% end %>
-				<p><%= link_to gig.title, gig_path(gig) %></p>
+				<p><%= link_to gig.title.truncate(20), gig_path(gig) %></p>
 				<p><span><i class="fa fa-star"></i></span><%= gig.average_rating %>(<%= gig.reviews.count %>)</p>
+					<%= link_to users_path(gig.user) do %>
 					<figure>
 						<%= image_tag avatar_url(gig.user), size: "50x50" %>
 					</figure>
+					<% end %>
 					<strong>$<%= gig.price %></strong>	
 			</div>			
 			

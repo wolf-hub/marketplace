@@ -35,11 +35,7 @@
 				  		<div><%= p.delivery_time %></div>
 				  		<p><%= p.price %></p>
 				  		<% if (!user_signed_in? && @gig.active) || (user_signed_in? && @gig.active && @gig.user_id != current_user.id) %>
-				  			<%= form_for([@gig, @gig.orders.new]) do |f| %>
-				  				<%= hidden_field_tag 'pricing_type', p.pricing_type %>
-				  				<%= f.submit "Continue ($#{p.price})", class: "btn btn-primary", data: {confirm: "Are you sure?"} %>
-				  			<% end %>
-				  			<button class="btn btn-primary">Continue</button>
+				  			<%= link_to "Continue ($#{p.price})", checkout_path(id: @gig.id, pricing_type: p.pricing_type), class: "btn btn-primary" %>
 				  		<% else %>
 				  			<button class="btn btn-primary" disabled>Not Avaiable</button>
 				  		<% end %>
@@ -49,9 +45,11 @@
 				</div>
 			</div>
 			<div>
-				<figure>
-					<%= image_tag avatar_url(@gig.user) %>
-				</figure>
+				<%= link_to users_path(@gig.user) do %>
+					<figure>
+						<%= image_tag avatar_url(@gig.user) %>
+					</figure>
+				<% end %>
 				<p><%= @gig.user.full_name %></p>
 				<p><%= @gig.user.created_at.strftime('%b %Y') %></p>
 				<p><%= @gig.user.from %></p>

@@ -1,0 +1,40 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<%= form_with model: [@gig, @gig.orders.new] do |f| %>
+				<%= hidden_field_tag 'pricing_type', @pricing.pricing_type %>
+
+				<div class="row">
+					<div class="col-8">
+						<p>Payment options</p>
+						<div>
+							<% @stripe_customer.sources.each do |payment| %>
+								<div class="control">
+									<%= radio_button_tag 'payment', payment.id, checked: true %>
+									<span>
+										<%= payment.brand %>  <%= "Card: **** **** **** " + payment.last4 %>
+									</span>
+								</div>
+							<% end %>
+							<div class="control">
+								<%= radio_button_tag 'payment', 'system' %>
+								<span>Your system wallet <strong><%= current_user.wallet %></strong></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-4">
+						<p>Summary</p>
+						<figure>
+							<%= image_tag gig_cover(@gig) %>
+						</figure>
+						<p><%= @gig.title %></p>
+						<p>Subtotal $<%= '%.2f' % @pricing.price %></p>
+						<p>Delivery time <%= pluralize(@pricing.delivery_time, 'day') %></p>
+						<%= f.submit "Place your order", class: "btn btn-primary", data: {confirm: "Are you sure?"} %>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
