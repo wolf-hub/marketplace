@@ -6,6 +6,9 @@
 				<div class="field">
 					<%= f.text_field :paypal, value: current_user.paypal, placeholder: "Your Paypal Email", class: "input" %>
 				</div>
+				<div class="field">
+					<%= f.submit "Save", class: "btn btn-primary" %>
+				</div>
 				<% end %>
 			</div>
 		</div>

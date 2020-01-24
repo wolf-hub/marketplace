@@ -1,0 +1,49 @@
+<div class="container">
+	<div class="row">
+		<div class="col-4">
+			<nav class="menu">
+                <p class="menu-label">
+                    All Conversations
+                </p>
+                <ul class="list-group">
+                    <% @conversations.each do |c| %>
+                    	<% @client = c.sender_id == current_user.id ? c.receiver : c.sender %>
+                    	<%= link_to conversation_detail_path(@client.id) do %>
+	                    	<li class="list-group-item">
+		                        
+		                            <div class="message-body">
+		                                <div class="media">
+		                                    <div class="media-left">
+		                                        <figure class="">
+		                                            <%= image_tag( avatar_url(@client), size: "32x32", class: "rounded-circle") %>
+		                                        </figure>
+		                                    </div>                                
+		                                    <div class="media-content">
+		                                        <div class="title is-6"><%= @client.full_name %></div>
+		                                        <div class="subtitle is-7">
+		                                            <%= (c.last_message.user_id == current_user.id ? "You: #{c.last_message.content}" : c.last_message.content).truncate(20) %>
+		                                        </div>
+		                                        <div class="media-right">
+			                                        <%= c.last_message.updated_at.strftime("%b %Y") %>
+			                                    </div>
+		                                    </div>		                                    
+		                                </div>
+		                            </div>
+		                                            
+		                    </li>
+	                    <% end %>   
+                    <% end %>                                     
+                </ul>
+            </nav>
+		</div>
+		<div class="col-8">
+			<section class="hero">
+                <div class="hero-body">
+                    <p class="subtitle has-text-centered">
+                        Select a conversion
+                    </p>
+                </div>
+            </section>
+		</div>
+	</div>
+</div>

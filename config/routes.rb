@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  get 'message/create'
   resources :gigs do
   	member do
   		delete :delete_photo
@@ -18,6 +19,8 @@ Rails.application.routes.draw do
   get '/settings/payout', to: 'users#payout', as: 'settings_payout'
   get '/gigs/:id/checkout/:pricing_type', to: 'gigs#checkout', as: 'checkout'
   get '/earnings', to: 'users#earnings', as: 'earnings'
+  get '/conversations', to: 'conversations#list', as: 'conversations'
+  get '/conversations/:id', to: 'conversations#show', as: 'conversation_detail'
 
   get '/dashboard', to: 'users#dashboard'
   post '/users/edit', to: 'users#update'
@@ -26,6 +29,7 @@ Rails.application.routes.draw do
   post '/settings/payment', to: 'users#update_payment', as: 'update_payment'
   post '/settings/payout', to: 'users#update_payout', as: 'update_payout'
   post '/users/withdraw', to: 'users#withdraw', as: 'withdraw'
+  post '/messages', to: 'messages#create'
 
   get '/users/:id', to: 'users#show', as: 'users'
   get '/selling_orders', to: 'orders#selling_orders'

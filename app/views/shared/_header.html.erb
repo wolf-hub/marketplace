@@ -39,6 +39,7 @@
         <%= link_to "Payout Method", settings_payout_path, class: "nav-link" %>
       </li>
       <li><%= link_to "Earnings", earnings_path, class: "nav-link" %></li>
+      <li><%= link_to 'Messages', conversations_path, class: 'nav-link' %></li>
       
       <% if !user_signed_in? %>
         <li class="nav-item">
