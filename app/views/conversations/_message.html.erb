@@ -1,0 +1,16 @@
+<% if m.user.id == user.id %>
+	<div class="col-7 offset-5">
+		<div><%= m.content %></div>
+		<span><%= time_ago_in_words(m.created_at) %></span>
+	</div>
+<% else %>
+	<div class="col-7">
+		<div class="media">
+			<figure>
+				<%= image_tag avatar_url(m.user), class: "rounded-circle", size: "32x32" %>
+			</figure>
+			<div><%= m.content %></div>
+			<span><%= time_ago_in_words(m.created_at) %></span>
+		</div>
+	</div>
+<% end %>
